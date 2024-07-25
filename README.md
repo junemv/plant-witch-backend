@@ -9,6 +9,7 @@ This is the readme for the Plant Witch Backend <br>
 ## Resources:
 [Java Lesson](https://youtu.be/eIrMbAQSU34?si=MEXnKWuPrLpb7nl0)<br>
 [figjam Board](https://www.figma.com/board/YE2c9ABSZLArevjuRjoO8t/Plant-Witch-FigJam?node-id=19-673&t=dcqptVd12SVWSvdp-1)<br>
+[Guide for Building a RESTful API](https://youtu.be/a8x2vhcoeKI?si=zAZHzIC4TKQ-Po7L)<br>
 
 ## Dependencies:
 Dependencies should be added to the **pom.xml** file located in the src folder of this repo. 
