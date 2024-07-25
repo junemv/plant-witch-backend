@@ -19,17 +19,18 @@ If you're not sure what dependencies you have installed just look at the **pom.x
 
 ## Milestone Tracking:
 ### TODO:
-- Java/Dependencies setup
-- Build Repo
-- Build User and Plant classes
-    - Setup db and migrations
+- ~~Java/Dependencies setup~~
+- ~~Build Repo~~
+- Build User Model
+- Build Plant Model
+- Setup db and migrations
 - Begin Front-end design (figma)
 - Build Front-End Repo
 - Watering Functionality
 
 ## June:
 
-- Create Boiler Plate Repo
+- ~~Create Boiler Plate Repo~~
 - Build User class/table
 - Build Front-End Repo
 
