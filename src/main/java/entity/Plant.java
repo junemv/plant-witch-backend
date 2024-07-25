@@ -12,7 +12,7 @@ public class Plant {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "image")
@@ -21,22 +21,21 @@ public class Plant {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "waterDate")
+    @Column(name = "waterDate", nullable = false)
     private String waterDate;
 
-    @Column(name = "repotDate")
+    @Column(name = "repotDate", nullable = false)
     private String repotDate;
 
-    @Column(name = "waterInterval")
+    @Column(name = "waterInterval", nullable = false)
     private int waterInterval;
 
-    @Column(name = "repotInterval")
+    @Column(name = "repotInterval", nullable = false)
     private int repotInterval;
 
     // Mapping the column of this table
 //    @ManyToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "user_id")
-//    private User user;
 //    private User user;
 
     public Plant() {
