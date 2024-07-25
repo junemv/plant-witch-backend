@@ -21,7 +21,7 @@ If you're not sure what dependencies you have installed just look at the **pom.x
 ### TODO:
 - ~~Java/Dependencies setup~~
 - ~~Build Repo~~
-- Build User Model
+- ~~Build User Model~~
 - Build Plant Model
 - Setup db and migrations
 - Begin Front-end design (figma)
@@ -31,7 +31,7 @@ If you're not sure what dependencies you have installed just look at the **pom.x
 ## June:
 
 - ~~Create Boiler Plate Repo~~
-- Build User class/table
+- ~~Build User model/table~~
 - Build Front-End Repo
 
 ## Diana
