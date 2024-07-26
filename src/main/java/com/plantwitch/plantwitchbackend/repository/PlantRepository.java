@@ -1,6 +1,6 @@
-package repository;
+package com.plantwitch.plantwitchbackend.repository;
 
-import entity.Plant;
+import com.plantwitch.plantwitchbackend.entity.Plant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

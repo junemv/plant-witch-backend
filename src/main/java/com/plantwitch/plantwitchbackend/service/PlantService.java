@@ -1,12 +1,8 @@
-package service;
+package com.plantwitch.plantwitchbackend.service;
 
-import entity.Plant;
+import com.plantwitch.plantwitchbackend.repository.PlantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import repository.PlantRepository;
 
 @Service
 public class PlantService {

@@ -1,7 +1,6 @@
-package entity;
+package com.plantwitch.plantwitchbackend.entity;
 
 import jakarta.persistence.*;
-import org.apache.catalina.User;
 
 @Entity
 @Table(name = "plants")
