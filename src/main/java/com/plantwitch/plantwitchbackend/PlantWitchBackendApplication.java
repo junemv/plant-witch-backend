@@ -5,7 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @SpringBootApplication
-@EntityScan(basePackages = "com.plantwitch.plantwitchbackend.entity")
+@EntityScan(basePackages = {"com.plantwitch.plantwitchbackend.entity", "com.plantwitch.plantwitchbackend.user"})
+
 
 public class PlantWitchBackendApplication {
 

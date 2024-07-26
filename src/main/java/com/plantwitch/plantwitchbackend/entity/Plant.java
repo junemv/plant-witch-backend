@@ -1,5 +1,6 @@
 package com.plantwitch.plantwitchbackend.entity;
 
+import com.plantwitch.plantwitchbackend.user.User;
 import jakarta.persistence.*;
 
 @Entity
@@ -33,9 +34,9 @@ public class Plant {
     private int repotInterval;
 
     // Mapping the column of this table
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "user_id")
-//    private User user;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Plant() {
 
