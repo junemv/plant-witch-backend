@@ -8,6 +8,8 @@ This is the readme for the Plant Witch Backend <br>
 * **Sunday:** 10:00 am PST
 ## Resources:
 [Java Lesson](https://youtu.be/eIrMbAQSU34?si=MEXnKWuPrLpb7nl0)<br>
+[figjam Board](https://www.figma.com/board/YE2c9ABSZLArevjuRjoO8t/Plant-Witch-FigJam?node-id=19-673&t=dcqptVd12SVWSvdp-1)<br>
+[Guide for Building a RESTful API](https://youtu.be/a8x2vhcoeKI?si=zAZHzIC4TKQ-Po7L)<br>
 
 ## Dependencies:
 Dependencies should be added to the **pom.xml** file located in the src folder of this repo. 
@@ -17,18 +19,19 @@ If you're not sure what dependencies you have installed just look at the **pom.x
 
 ## Milestone Tracking:
 ### TODO:
-- Java/Dependencies setup
-- Build Repo
-- Build User and Plant classes
-    - Setup db and migrations
+- ~~Java/Dependencies setup~~
+- ~~Build Repo~~
+- ~~Build User Model~~
+- Build Plant Model
+- Setup db and migrations
 - Begin Front-end design (figma)
 - Build Front-End Repo
 - Watering Functionality
 
 ## June:
 
-- Create Boiler Plate Repo
-- Build User class/table
+- ~~Create Boiler Plate Repo~~
+- ~~Build User model/table~~
 - Build Front-End Repo
 
 ## Diana
