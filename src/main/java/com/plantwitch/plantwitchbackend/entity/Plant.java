@@ -51,5 +51,79 @@ public class Plant {
         this.image = image;
         this.name = name;
         this.id = id;
+
+
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getWaterDate() {
+        return waterDate;
+    }
+
+    public void setWaterDate(String waterDate) {
+        this.waterDate = waterDate;
+    }
+
+    public String getRepotDate() {
+        return repotDate;
+    }
+
+    public void setRepotDate(String repotDate) {
+        this.repotDate = repotDate;
+    }
+
+    public int getWaterInterval() {
+        return waterInterval;
+    }
+
+    public void setWaterInterval(int waterInterval) {
+        this.waterInterval = waterInterval;
+    }
+
+    public int getRepotInterval() {
+        return repotInterval;
+    }
+
+    public void setRepotInterval(int repotInterval) {
+        this.repotInterval = repotInterval;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
