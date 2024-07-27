@@ -1,12 +1,14 @@
 package com.plantwitch.plantwitchbackend.user;
 
+import com.plantwitch.plantwitchbackend.entity.Plant;
 import jakarta.persistence.*;
-import lombok.Data;
+//import lombok.Data;
 
+import java.util.List;
 
 @Entity
 @Table(name = "_users")
-@Data
+//@Data
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,8 +23,8 @@ public class User {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-//    @OneToMany(mappedBy = "user", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
-//    private List<Plant> plants;
+    @OneToMany(mappedBy = "user", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
+    private List<Plant> plants;
 
 //    specify setters and getters
     public Long getId() {
