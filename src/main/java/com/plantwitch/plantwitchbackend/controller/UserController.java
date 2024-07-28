@@ -1,5 +1,7 @@
-package com.plantwitch.plantwitchbackend.user;
+package com.plantwitch.plantwitchbackend.controller;
 
+import com.plantwitch.plantwitchbackend.entity.User;
+import com.plantwitch.plantwitchbackend.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

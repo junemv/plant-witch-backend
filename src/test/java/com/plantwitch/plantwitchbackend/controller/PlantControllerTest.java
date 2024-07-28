@@ -2,7 +2,7 @@ package com.plantwitch.plantwitchbackend.controller;
 
 import com.plantwitch.plantwitchbackend.entity.Plant;
 import com.plantwitch.plantwitchbackend.service.PlantService;
-import com.plantwitch.plantwitchbackend.user.User;
+import com.plantwitch.plantwitchbackend.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

@@ -2,12 +2,10 @@ package com.plantwitch.plantwitchbackend.service;
 
 import com.plantwitch.plantwitchbackend.entity.Plant;
 import com.plantwitch.plantwitchbackend.repository.PlantRepository;
-import com.plantwitch.plantwitchbackend.user.User;
-import com.plantwitch.plantwitchbackend.user.UserRepository;
+import com.plantwitch.plantwitchbackend.entity.User;
+import com.plantwitch.plantwitchbackend.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

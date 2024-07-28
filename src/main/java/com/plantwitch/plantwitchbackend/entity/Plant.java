@@ -1,6 +1,5 @@
 package com.plantwitch.plantwitchbackend.entity;
 
-import com.plantwitch.plantwitchbackend.user.User;
 import jakarta.persistence.*;
 
 @Entity
