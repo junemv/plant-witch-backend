@@ -1,6 +1,5 @@
-package com.plantwitch.plantwitchbackend.user;
+package com.plantwitch.plantwitchbackend.entity;
 
-import com.plantwitch.plantwitchbackend.entity.Plant;
 import jakarta.persistence.*;
 //import lombok.Data;
 
