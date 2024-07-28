@@ -8,6 +8,9 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 @Service
@@ -33,6 +36,20 @@ public class PlantService {
             throw new RuntimeException("User not found with ID: " + user_id);
         }
 
+
+
+    }
+
+    public long calculateDaysUntilNextWatering(String waterDate, int waterInterval) {
+        DateTimeFormatter stringToDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate currentWaterDate = LocalDate.parse(waterDate, stringToDate);
+
+        LocalDate nextWaterDate = currentWaterDate.plusDays(waterInterval);
+
+        LocalDate today = LocalDate.now();
+        long daysUntilNextWatering = ChronoUnit.DAYS.between(today, nextWaterDate);
+
+        return daysUntilNextWatering;
 
     }
 }
