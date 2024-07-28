@@ -1,12 +1,14 @@
 package com.plantwitch.plantwitchbackend.controller;
 
 import com.plantwitch.plantwitchbackend.entity.Plant;
+import com.plantwitch.plantwitchbackend.entity.User;
 import com.plantwitch.plantwitchbackend.repository.PlantRepository;
 import com.plantwitch.plantwitchbackend.service.PlantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -22,6 +24,18 @@ public class PlantController {
         this.plantRepository = plantRepository;
         this.plantService = plantService;
     }
+
+    @GetMapping("/{plant_id}")
+    public Optional<Plant> getPlantById(@PathVariable Long plant_id) {
+        return plantService.getPlant(plant_id);
+    }
+
+    @GetMapping("/users/{user_id}")
+    public ResponseEntity<List<Plant>> getAllPlantsByUser(@PathVariable Long user_id) {
+        List<Plant> plants = plantService.getAllPlantsByUser(user_id);
+        return ResponseEntity.ok(plants);
+    }
+
 
     @PostMapping("/users/{user_id}")
     public ResponseEntity<Plant> createPlant(@PathVariable Long user_id, @RequestBody Plant plant) {
