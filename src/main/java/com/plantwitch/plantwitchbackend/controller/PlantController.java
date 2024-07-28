@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,14 +46,19 @@ public class PlantController {
         return ResponseEntity.ok(savedPlant);
     }
 
-    @GetMapping("/{id}/watering")
-    public ResponseEntity<String> getPlantWateringSchedule(@PathVariable Long id) {
+    @GetMapping("/{id}/schedule")
+    public ResponseEntity<Map<String, Long>> getPlantSchedule(@PathVariable Long id) {
         Optional<Plant> plantOptional = plantRepository.findById(id);
         if (plantOptional.isPresent()) {
             Plant plant = plantOptional.get();
-            long daysUntilNextWatering = plantService.calculateDaysUntilNextWatering(plant.getWaterDate(), plant.getWaterInterval());
-            String response = "Water due in " + daysUntilNextWatering +" days.";
-            return ResponseEntity.ok(response);
+            long daysUntilNextWatering = plantService.calculateDaysUntilNextAction(plant.getWaterDate(), plant.getWaterInterval());
+            long daysUntilNextRepotting = plantService.calculateDaysUntilNextAction(plant.getRepotDate(), plant.getRepotInterval());
+
+            Map<String, Long> schedule = new HashMap<>();
+            schedule.put("daysUntilNextWatering", daysUntilNextWatering);
+            schedule.put("daysUntilNextRepotting", daysUntilNextRepotting);
+
+            return ResponseEntity.ok(schedule);
         } else {
             return ResponseEntity.notFound().build();
         }

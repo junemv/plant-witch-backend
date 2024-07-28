@@ -67,16 +67,42 @@ void testCreatePlant() {
 }
 
     @Test
-    void testCalculateDaysUntilNextWatering() {
+    void testCalculateDaysUntilNextAction() {
         //given
-        String waterDate = LocalDate.now().minusDays(2).toString();
-        int waterInterval = 10;
+        String actionDate = LocalDate.now().minusDays(2).toString();
+        int actionInterval = 10;
 
         //when
-        long daysUntilNextWatering = plantService.calculateDaysUntilNextWatering(waterDate, waterInterval);
+        long daysUntilNextAction = plantService.calculateDaysUntilNextAction(actionDate, actionInterval);
 
         //then
-        assertEquals(8, daysUntilNextWatering);
+        assertEquals(8, daysUntilNextAction);
+    }
+
+    @Test
+    void testCalculateDaysUntilNextActionWhenOverdue() {
+        //given
+        String actionDate = LocalDate.now().minusDays(7).toString();
+        int actionInterval = 3;
+
+        //when
+        long daysUntilNextAction = plantService.calculateDaysUntilNextAction(actionDate, actionInterval);
+
+        //then
+        assertEquals(-4, daysUntilNextAction);
+    }
+
+    @Test
+    void testCalculatesZeroDaysUntilNextAction() {
+        //given
+        String actionDate = LocalDate.now().minusDays(5).toString();
+        int actionInterval = 5;
+
+        //when
+        long daysUntilNextAction = plantService.calculateDaysUntilNextAction(actionDate, actionInterval);
+
+        //then
+        assertEquals(0, daysUntilNextAction);
     }
 
 }

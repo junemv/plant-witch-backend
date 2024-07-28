@@ -38,16 +38,16 @@ public class PlantService {
 
     }
 
-    public long calculateDaysUntilNextWatering(String waterDate, int waterInterval) {
+    public long calculateDaysUntilNextAction(String date, int interval) {
         DateTimeFormatter stringToDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate currentWaterDate = LocalDate.parse(waterDate, stringToDate);
+        LocalDate currentDate = LocalDate.parse(date, stringToDate);
 
-        LocalDate nextWaterDate = currentWaterDate.plusDays(waterInterval);
+        LocalDate nextActionDate = currentDate.plusDays(interval);
 
         LocalDate today = LocalDate.now();
-        long daysUntilNextWatering = ChronoUnit.DAYS.between(today, nextWaterDate);
+        long daysUntilNextAction = ChronoUnit.DAYS.between(today, nextActionDate);
 
-        return daysUntilNextWatering;
+        return daysUntilNextAction;
 
     }
 
