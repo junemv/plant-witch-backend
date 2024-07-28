@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PlantService {
@@ -36,8 +36,6 @@ public class PlantService {
             throw new RuntimeException("User not found with ID: " + user_id);
         }
 
-
-
     }
 
     public long calculateDaysUntilNextAction(String date, int interval) {
@@ -52,4 +50,20 @@ public class PlantService {
         return daysUntilNextAction;
 
     }
+
+    // return one plant by ID
+    public Optional<Plant> getPlant(Long id){
+        return this.plantRepository.findById(id);
+    }
+
+    // return all plants for one user by ID
+    public List<Plant> getAllPlantsByUser(Long user_id) {
+        Optional<User> user = userRepository.findById(user_id);
+        if (user.isPresent()) {
+            return plantRepository.findByUserId(user_id);
+        }
+        throw new RuntimeException("User not found with ID: " + user_id);
+    }
+
 }
+
