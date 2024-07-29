@@ -8,6 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -16,15 +20,19 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/plants")
+
 public class PlantController {
     private final PlantRepository plantRepository;
     private final PlantService plantService;
+    private final HttpClient httpClient;
+
 
     @Autowired
-    public PlantController(PlantRepository plantRepository, PlantService plantService) {
+    public PlantController(PlantRepository plantRepository, PlantService plantService, HttpClient httpClient) {
 
         this.plantRepository = plantRepository;
         this.plantService = plantService;
+        this.httpClient = httpClient;
     }
 
     @GetMapping("/{plant_id}")
@@ -61,6 +69,24 @@ public class PlantController {
             return ResponseEntity.ok(schedule);
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/species-list")
+    public ResponseEntity<String> getSpeciesList() {
+        try {
+            String url = "https://perenual.com/api/species-list?key=sk-y6bd66a7fd00b2eb36377";
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(url))
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+            return ResponseEntity.ok(response.body());
+        } catch (Exception e) {
+//            e.printStackTrace();
+            return ResponseEntity.status(500).body("Error occurred while fetching species list.");
         }
     }
 
