@@ -12,10 +12,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 public class PlantServiceTest {
@@ -65,6 +67,62 @@ void testCreatePlant() {
     assertThat(createdPlant.getWaterInterval()).isEqualTo(6);
     assertThat(createdPlant.getUser().getId()).isEqualTo(userId);
 }
+
+@Test
+void testGetPlantById() {
+    Plant plant = new Plant();
+    plant.setId(1L);
+    plant.setName("Test Plant");
+    Long plantId = 1L;
+
+    when(plantRepository.findById(plantId)).thenReturn(Optional.of(plant));
+
+    Optional<Plant> foundPlant = plantService.getPlant(plantId);
+
+    assertTrue(foundPlant.isPresent());
+    assertEquals("Test Plant", foundPlant.get().getName());
+
+}
+
+    @Test
+    void testGetAllPlantsByUserId_UserNotFound() {
+        Long userId = 1L;
+
+        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            plantService.getAllPlantsByUser(userId);
+        });
+
+        assertEquals("User not found with ID: " + userId, exception.getMessage());
+    }
+
+    @Test
+    void testGetAllPlantsByUserId() {
+        Long userId = 1L;
+        User user = new User();
+        user.setId(userId);
+
+        Plant plant1 = new Plant();
+        plant1.setId(1L);
+        plant1.setName("Test Plant");
+        plant1.setUser(user);
+
+        Plant plant2 = new Plant();
+        plant2.setId(2L);
+        plant2.setName("Test Plant2");
+        plant2.setUser(user);
+
+        when(userRepository.findById(userId)).thenReturn(Optional.of(user)); // Mock the user repository
+        when(plantRepository.findByUserId(userId)).thenReturn(List.of(plant1, plant2));
+
+        List<Plant> foundPlants = plantService.getAllPlantsByUser(userId);
+
+        assertFalse(foundPlants.isEmpty());
+        assertEquals("Test Plant", foundPlants.get(0).getName());
+        assertEquals("Test Plant2", foundPlants.get(1).getName());
+
+    }
 
     @Test
     void testCalculateDaysUntilNextAction() {
