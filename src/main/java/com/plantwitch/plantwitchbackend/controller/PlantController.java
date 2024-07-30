@@ -1,16 +1,16 @@
 package com.plantwitch.plantwitchbackend.controller;
 
 import com.plantwitch.plantwitchbackend.entity.Plant;
-import com.plantwitch.plantwitchbackend.entity.User;
 import com.plantwitch.plantwitchbackend.repository.PlantRepository;
 import com.plantwitch.plantwitchbackend.service.PlantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -64,4 +64,29 @@ public class PlantController {
         }
     }
 
+    @PatchMapping("/{id}/water-date")
+    public ResponseEntity<Plant> resetWaterDate(@PathVariable Long id) {
+        Optional<Plant> plantOptional = plantRepository.findById(id);
+        if ((plantOptional.isPresent())) {
+            Plant plant = plantOptional.get();
+            plant.setWaterDate(LocalDate.now().toString());
+            Plant updatedPlant = plantRepository.save(plant);
+            return ResponseEntity.ok(updatedPlant);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PatchMapping("/{id}/repot-date")
+    public ResponseEntity<Plant> resetRepotDate(@PathVariable Long id) {
+        Optional<Plant> plantOptional = plantRepository.findById(id);
+        if ((plantOptional.isPresent())) {
+            Plant plant = plantOptional.get();
+            plant.setRepotDate(LocalDate.now().toString());
+            Plant updatedPlant = plantRepository.save(plant);
+            return ResponseEntity.ok(updatedPlant);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
