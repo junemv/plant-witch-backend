@@ -1,5 +1,6 @@
 package com.plantwitch.plantwitchbackend.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.plantwitch.plantwitchbackend.entity.Plant;
 import com.plantwitch.plantwitchbackend.entity.User;
 import com.plantwitch.plantwitchbackend.repository.PlantRepository;
@@ -33,6 +34,11 @@ public class PlantController {
         this.plantRepository = plantRepository;
         this.plantService = plantService;
         this.httpClient = httpClient;
+    }
+
+    @GetMapping("/")
+    public List<Map<String, String>> getMap() throws JsonProcessingException {
+        return plantService.getAllPlantsWithId();
     }
 
     @GetMapping("/{plant_id}")
