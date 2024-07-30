@@ -20,18 +20,18 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-//    post new user route response
+//    post new user
     public ResponseEntity<Object> newUser(User user) {
         userRepository.save(user);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
-//    get all user IDs response
+//    get all user IDs
     public List<User> getAll(){
         return this.userRepository.findAll();
     }
 
-//    get user by ID response
+//    get user by ID
     public Optional<User> getUser(Long id){
         return this.userRepository.findById(id);
     }
