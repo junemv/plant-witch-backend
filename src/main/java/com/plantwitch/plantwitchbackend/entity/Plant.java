@@ -33,7 +33,7 @@ public class Plant {
     private int repotInterval;
 
     // Mapping the column of this table
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
