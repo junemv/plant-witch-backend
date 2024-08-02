@@ -68,7 +68,7 @@ public class PlantController {
     @PatchMapping("/{id}/water-date")
     public ResponseEntity<Plant> resetWaterDate(@PathVariable Long id) {
         Optional<Plant> plantOptional = plantRepository.findById(id);
-        if ((plantOptional.isPresent())) {
+        if (plantOptional.isPresent()) {
             Plant plant = plantOptional.get();
             plant.setWaterDate(LocalDate.now().toString());
             Plant updatedPlant = plantRepository.save(plant);
@@ -81,11 +81,22 @@ public class PlantController {
     @PatchMapping("/{id}/repot-date")
     public ResponseEntity<Plant> resetRepotDate(@PathVariable Long id) {
         Optional<Plant> plantOptional = plantRepository.findById(id);
-        if ((plantOptional.isPresent())) {
+        if (plantOptional.isPresent()) {
             Plant plant = plantOptional.get();
             plant.setRepotDate(LocalDate.now().toString());
             Plant updatedPlant = plantRepository.save(plant);
             return ResponseEntity.ok(updatedPlant);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteOnePlant(@PathVariable Long id) {
+        Optional<Plant> plant = plantRepository.findById(id);
+        if (plant.isPresent()) {
+            plantRepository.delete(plant.get());
+            return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();
         }
