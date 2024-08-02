@@ -1,7 +1,6 @@
 package com.plantwitch.plantwitchbackend.controller;
 
 import com.plantwitch.plantwitchbackend.entity.Plant;
-import com.plantwitch.plantwitchbackend.entity.User;
 import com.plantwitch.plantwitchbackend.repository.PlantRepository;
 import com.plantwitch.plantwitchbackend.repository.UserRepository;
 import com.plantwitch.plantwitchbackend.service.PlantService;
@@ -23,28 +22,27 @@ import java.util.Optional;
 public class PlantController {
     private final PlantRepository plantRepository;
     private final PlantService plantService;
-    private final UserRepository userRepository;
 
     @Autowired
-    public PlantController(PlantRepository plantRepository, PlantService plantService, UserRepository userRepository) {
+    public PlantController(PlantRepository plantRepository, PlantService plantService) {
 
         this.plantRepository = plantRepository;
         this.plantService = plantService;
-        this.userRepository = userRepository;
     }
 
+    //Gets a plant by its id
     @GetMapping("/{plant_id}")
     public Optional<Plant> getPlantById(@PathVariable Long plant_id) {
         return plantService.getPlant(plant_id);
     }
-
+    //Gets all plants for provided user
     @GetMapping("/users/{user_id}")
     public ResponseEntity<List<Plant>> getAllPlantsByUser(@PathVariable Long user_id) {
         List<Plant> plants = plantService.getAllPlantsByUser(user_id);
         return ResponseEntity.ok(plants);
     }
 
-
+    //Creates a plant in db
     @PostMapping("/users/{user_id}")
     public ResponseEntity<Plant> createPlant(@PathVariable Long user_id, @RequestBody Plant plant) {
         Plant savedPlant = plantService.newPlant(user_id, plant);
@@ -107,13 +105,6 @@ public class PlantController {
         }
     }
 
-    //    Get all plant schedules by user ID
-//    > This function would be an alternative to the current getPlantSchedule route
-//    > Takes in User ID, gets all plants by that ID (can we repurpose get all plants by ID?)
-//    > It builds a Dictionary using plant ID as the key, and the value would be the same as the getPlantSchedule output
-//    > ex. {plantID : {daysUntilNextRepotting : 5, daysUntilNextRepotting : 20}}
-//    > it returns that dictionary
-//{1 : {daysUntilNextRepotting : 5, daysUntilNextRepotting : 20}, 2 : {daysUntilNextRepotting : 7, daysUntilNextRepotting : 130}}
 
     // Gets the schedule for all the plants that provided user has
     @GetMapping("/users/{user_id}/plants_schedule")

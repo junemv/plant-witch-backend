@@ -25,6 +25,7 @@ public class PlantService {
         this.userRepository = userRepository;
     }
 
+    //Saves newly created plants
     @Transactional
     public Plant newPlant(Long user_id, Plant plant) {
         Optional<User> userOptional = userRepository.findById(user_id);
@@ -51,12 +52,12 @@ public class PlantService {
 
     }
 
-    // return one plant by ID
+    //Returns one plant by its ID
     public Optional<Plant> getPlant(Long id){
         return this.plantRepository.findById(id);
     }
 
-    // return all plants for one user by ID
+    //Returns all plants for one user by user ID
     public List<Plant> getAllPlantsByUser(Long user_id) {
         Optional<User> user = userRepository.findById(user_id);
         if (user.isPresent()) {
