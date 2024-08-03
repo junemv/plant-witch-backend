@@ -125,7 +125,7 @@ public class PlantController {
     }
 
     // Updates name and description of plant by id 
-    @PatchMapping("/update/{id}")
+    @PatchMapping("/updates/{id}")
     public ResponseEntity<Plant> updatePlantNameAndDescription(@PathVariable Long id, @RequestBody Map<String, String> updates) {
         Optional<Plant> plant = plantRepository.findById(id);
         if (plant.isPresent()) {
