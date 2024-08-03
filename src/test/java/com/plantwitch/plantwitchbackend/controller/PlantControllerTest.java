@@ -1,59 +1,68 @@
 package com.plantwitch.plantwitchbackend.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.plantwitch.plantwitchbackend.entity.Plant;
+import com.plantwitch.plantwitchbackend.repository.PlantRepository;
 import com.plantwitch.plantwitchbackend.service.PlantService;
-import com.plantwitch.plantwitchbackend.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RestController
+
+@WebMvcTest (PlantController.class)
 public class PlantControllerTest {
 
-    @Mock
+    @MockBean
     private PlantService plantService;
 
-    @InjectMocks
-    private PlantController plantController;
+    @MockBean
+    private PlantRepository plantRepository;
 
+    private Plant testPlant;
+    @Autowired
     private MockMvc mockMvc;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(plantController).build();
+        testPlant = new Plant();
+        testPlant.setId(1L);
+        testPlant.setName("My testing plant.");
+        testPlant.setImage("test_image.jpg");
+        testPlant.setDescription("A test description.");
+        testPlant.setRepotDate("2024-07-27");
+        testPlant.setWaterDate("2024-07-27");
+        testPlant.setWaterInterval(6);
+        testPlant.setRepotInterval(12);
+
     }
 
     @Test
-    public void createPlant() throws Exception {
-        User user = new User();
-        Plant plant = new Plant();
-        Long userId = 1L;
-        user.setId(userId);
-        plant.setUser(user);
-        plant.setId(1L);
-        plant.setName("Test Plant Name");
-        plant.setRepotDate("2024-07-27");
-        plant.setRepotInterval(12);
-        plant.setWaterDate("2024-07-27");
-        plant.setWaterInterval(6);
-        plant.setImage("image.jpg");
+    public void testCreatePlant() throws Exception {
+        Long userId = 777L;
 
-        when(plantService.newPlant(userId, plant)).thenReturn(plant);
+        when(plantService.newPlant(anyLong(), any(Plant.class))).thenReturn(testPlant);
 
-        String plantJson = "{\"user_id\":1, \"name\":\"Test Plant Name\",\"waterDate\":\"2024-07-27\",\"repotDate\":\"2024-07-27\",\"waterInterval\":7,\"repotInterval\":12, \"id\":1}";
+        ObjectMapper objectMapper = new ObjectMapper();
+        String plantJson = objectMapper.writeValueAsString(testPlant);
 
         mockMvc.perform(post("/api/v1/plants/users/{user_id}", userId)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -61,11 +70,39 @@ public class PlantControllerTest {
                         .content(plantJson))
                 .andDo(print())  // Log the request and response details
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Test Plant Name"))
+                .andExpect(jsonPath("$.name").value("My testing plant."))
                 .andExpect(jsonPath("$.waterDate").value("2024-07-27"))
                 .andExpect(jsonPath("$.repotDate").value("2024-07-27"))
                 .andExpect(jsonPath("$.waterInterval").value(6))
                 .andExpect(jsonPath("$.repotInterval").value(12));
+    }
 
+    @Test
+    public void testUpdatePlantNameAndDescription() throws Exception {
+        Long plantId = 1L;
+
+        when(plantRepository.findById(anyLong())).thenReturn(Optional.of(testPlant));
+        when(plantRepository.save(any(Plant.class))).thenReturn(testPlant);
+
+        Map<String, String> updates = new HashMap<>();
+        updates.put("name", "My new plant name.");
+        updates.put("description","A new description.");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String plantJson = objectMapper.writeValueAsString(updates);
+
+        mockMvc.perform(patch("/api/v1/plants/updates/{id}", plantId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(plantJson))
+                .andDo(print())  // Log the request and response details
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("My new plant name."))
+                .andExpect(jsonPath("$.description").value("A new description."))
+                .andExpect(jsonPath("$.image").value("test_image.jpg"))
+                .andExpect(jsonPath("$.waterDate").value("2024-07-27"))
+                .andExpect(jsonPath("$.repotDate").value("2024-07-27"))
+                .andExpect(jsonPath("$.waterInterval").value(6))
+                .andExpect(jsonPath("$.repotInterval").value(12));
     }
 }
