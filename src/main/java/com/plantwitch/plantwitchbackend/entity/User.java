@@ -25,6 +25,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Plant> plants;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WitchAIResponse> witchAIResponseRequests;
+
 //    specify setters and getters
     public Long getId() {
         return id;
