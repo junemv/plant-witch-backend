@@ -1,7 +1,6 @@
 package com.plantwitch.plantwitchbackend.entity;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity

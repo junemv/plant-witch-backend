@@ -1,5 +1,7 @@
 package com.plantwitch.plantwitchbackend.entity;
 
+import org.aspectj.bridge.Message;
+
 import java.util.List;
 
 public class OpenAIResponse {
@@ -14,14 +16,36 @@ public class OpenAIResponse {
     }
 
     public static class Choice {
-        private String text;
+        private Message message;
 
-        public String getText() {
-            return text;
+        public Message getMessage() {
+            return message;
         }
 
-        public void setText(String text) {
-            this.text = text;
+        public void setMessage(Message message) {
+            this.message = message;
         }
     }
+
+    public static class Message {
+        private String role;
+        private String content;
+
+        public String getRole() {
+            return role;
+        }
+
+        public void setRole(String role) {
+            this.role = role;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+    }
+
 }
