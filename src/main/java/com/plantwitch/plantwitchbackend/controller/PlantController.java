@@ -2,12 +2,10 @@ package com.plantwitch.plantwitchbackend.controller;
 
 import com.plantwitch.plantwitchbackend.entity.Plant;
 import com.plantwitch.plantwitchbackend.repository.PlantRepository;
-import com.plantwitch.plantwitchbackend.repository.UserRepository;
 import com.plantwitch.plantwitchbackend.service.PlantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -121,6 +119,28 @@ public class PlantController {
                 allPlantsSchedule.put(plant.getId(), schedule);
             }
             return ResponseEntity.ok(allPlantsSchedule);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // Updates name and description of plant by id 
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<Plant> updatePlantNameAndDescription(@PathVariable Long id, @RequestBody Map<String, String> updates) {
+        Optional<Plant> plant = plantRepository.findById(id);
+        if (plant.isPresent()) {
+            Plant currentPlant = plant.get();
+
+            if (updates.containsKey("name")) {
+                currentPlant.setName(updates.get("name"));
+            }
+
+            if (updates.containsKey("description")) {
+                currentPlant.setDescription(updates.get("description"));
+            }
+
+            Plant updatedPlant = plantRepository.save(currentPlant);
+            return ResponseEntity.ok(updatedPlant);
         } else {
             return ResponseEntity.notFound().build();
         }
