@@ -60,7 +60,7 @@ public class WitchController {
         Map<String, Object> request = new HashMap<>();
         request.put("model", "gpt-4o-mini"); //we can choose other
         request.put("messages", List.of(Map.of("role", "user", "content", prompt)));
-        request.put("max_tokens", 50);
+        request.put("max_tokens", 150);
 
         HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(request, headers);
         ResponseEntity<OpenAIResponse> response = restTemplate.postForEntity(openApiUrl, requestEntity, OpenAIResponse.class);
