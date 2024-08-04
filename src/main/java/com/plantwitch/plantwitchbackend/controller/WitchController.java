@@ -38,42 +38,11 @@ public class WitchController {
         WitchAIResponse savedAIResponse = witchService.newWitchQuery(user_id, prompt);
 
         return ResponseEntity.ok(savedAIResponse);
-//        String apiKey = "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";
-//        Long userId = Long.parseLong(promptBody.get("userId"));
-//        Long userId = 1L;
-//        Optional<User> userOptional = userRepository.findById(userId);
-//        if (userOptional.isEmpty()) {
-//            throw new RuntimeException("User not found with ID: " + userId);
-//        }
-//        User user = userOptional.get();
-
-        // Call to OpenAI API
-//        OpenAIResponse openAIResponse = callOpenAI(prompt, apiKey);
-//        WitchAIResponse witchAIResponse = new WitchAIResponse();
-//        witchAIResponse.setPrompt(prompt);
-//        witchAIResponse.setResponse(openAIResponse.getChoices().get(0).getMessage().getContent());
-//        witchAIResponse.setTimestamp(LocalDateTime.now());
-//        witchAIResponse.setUser(user);
-
-//        return witchRepository.save(witchAIResponse);
     }
-
-//    private OpenAIResponse callOpenAI(String prompt, String apiKey) {
-//        // Make API call to OpenAI
-//        String openApiUrl = "https://api.openai.com/v1/chat/completions";
-//        RestTemplate restTemplate = new RestTemplate();
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.setBearerAuth(apiKey);
-//        Map<String, Object> request = new HashMap<>();
-//        request.put("model", "gpt-4o-mini"); //we can choose other
-//        request.put("messages", List.of(Map.of("role", "user", "content", prompt)));
-//        request.put("max_tokens", 150);
-//
-//        HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(request, headers);
-//        ResponseEntity<OpenAIResponse> response = restTemplate.postForEntity(openApiUrl, requestEntity, OpenAIResponse.class);
-//        return response.getBody();
-//    }
+<<<<<<< HEAD
+=======
+    
+>>>>>>> d4bd823 (Resolving push problems)
 }
 
 
