@@ -18,10 +18,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -81,7 +79,7 @@ public class PlantControllerTest {
     public void testUpdatePlantNameAndDescription() throws Exception {
         Long plantId = 1L;
 
-        when(plantRepository.findById(anyLong())).thenReturn(Optional.of(testPlant));
+        when(plantRepository.findById(plantId)).thenReturn(Optional.of(testPlant));
         when(plantRepository.save(any(Plant.class))).thenReturn(testPlant);
 
         Map<String, String> updates = new HashMap<>();
@@ -105,4 +103,29 @@ public class PlantControllerTest {
                 .andExpect(jsonPath("$.waterInterval").value(6))
                 .andExpect(jsonPath("$.repotInterval").value(12));
     }
-}
+
+    @Test
+    public void testDeletePlant() throws Exception {
+        Long plantId = 1L;
+
+        when(plantRepository.findById(plantId)).thenReturn(Optional.of(testPlant));
+
+        mockMvc.perform(delete("/api/v1/plants/delete/{id}", plantId))
+                .andExpect(status().isNoContent());
+
+        verify(plantRepository, times(1)).delete(testPlant);
+    }
+
+    @Test
+    public void testDeletePlantReturnsNotFoundIfPlantIdIsNotFound() throws Exception {
+        Long plantId = 1L;
+
+        when(plantRepository.findById(plantId)).thenReturn(Optional.empty());
+
+        mockMvc.perform(delete("/api/v1/plants/delete/{id}", plantId))
+                .andExpect(status().isNotFound());
+
+        verify(plantRepository, times(0)).delete(testPlant);
+    }
+
+    }
