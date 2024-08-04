@@ -11,11 +11,9 @@ public class WitchAIResponse {
     @Column(name = "ID")
     private Long id;
 
-    @Lob
     @Column(columnDefinition="TEXT", name = "prompt", nullable = false)
     private String prompt;
 
-    @Lob
     @Column(columnDefinition="TEXT", name = "response", nullable = false)
     private String response;
 
