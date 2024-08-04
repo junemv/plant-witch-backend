@@ -1,7 +1,5 @@
 package com.plantwitch.plantwitchbackend.entity;
 
-import org.aspectj.bridge.Message;
-
 import java.util.List;
 
 public class OpenAIResponse {

@@ -28,7 +28,7 @@ public class WitchAIResponse {
 
     }
 
-    public WitchAIResponse(Long id, User user, String promt, String response, LocalDateTime timestamp) {
+    public WitchAIResponse(Long id, User user, String prompt, String response, LocalDateTime timestamp) {
         this.id = id;
         this.user = user;
         this.prompt = prompt;

@@ -1,11 +1,11 @@
 package com.plantwitch.plantwitchbackend.service;
 
 import com.plantwitch.plantwitchbackend.entity.OpenAIResponse;
-import com.plantwitch.plantwitchbackend.entity.Plant;
 import com.plantwitch.plantwitchbackend.entity.User;
 import com.plantwitch.plantwitchbackend.entity.WitchAIResponse;
 import com.plantwitch.plantwitchbackend.repository.UserRepository;
 import com.plantwitch.plantwitchbackend.repository.WitchRepository;
+import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -38,7 +38,8 @@ public class WitchService {
     public WitchAIResponse newWitchQuery(Long user_id, String promptText) {
         Optional<User> userOptional = userRepository.findById(user_id);
         WitchAIResponse witch = new WitchAIResponse();
-        String apiKey = "";
+        Dotenv dotenv = Dotenv.load();
+        String apiKey = dotenv.get("OPENAI_API_KEY");
 
         if (userOptional.isPresent()) {
             User user = userOptional.get();
@@ -54,9 +55,8 @@ public class WitchService {
         }
 
     }
-
+    // Make API call to OpenAI
     private OpenAIResponse callOpenAI(String prompt, String apiKey) {
-        // Make API call to OpenAI
         String openApiUrl = "https://api.openai.com/v1/chat/completions";
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
