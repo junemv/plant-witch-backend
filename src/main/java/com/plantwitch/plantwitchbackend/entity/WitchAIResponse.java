@@ -48,8 +48,8 @@ public class WitchAIResponse {
         return prompt;
     }
 
-    public void setPrompt(String promt) {
-        this.prompt = promt;
+    public void setPrompt(String prompt) {
+        this.prompt = prompt;
     }
 
     public String getResponse() {

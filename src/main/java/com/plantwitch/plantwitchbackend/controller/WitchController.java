@@ -58,10 +58,9 @@ public class WitchController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(apiKey);
         Map<String, Object> request = new HashMap<>();
-        request.put("model", "gpt-3.5-turbo"); //we can choose other like 4 mini
+        request.put("model", "gpt-4o-mini"); //we can choose other
         request.put("messages", List.of(Map.of("role", "user", "content", prompt)));
-        request.put("prompt", prompt);
-        request.put("max_tokens", 150);
+        request.put("max_tokens", 50);
 
         HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(request, headers);
         ResponseEntity<OpenAIResponse> response = restTemplate.postForEntity(openApiUrl, requestEntity, OpenAIResponse.class);
