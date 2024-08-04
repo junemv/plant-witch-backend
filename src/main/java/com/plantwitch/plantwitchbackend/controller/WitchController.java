@@ -39,10 +39,6 @@ public class WitchController {
 
         return ResponseEntity.ok(savedAIResponse);
     }
-<<<<<<< HEAD
-=======
-    
->>>>>>> d4bd823 (Resolving push problems)
 }
 
 

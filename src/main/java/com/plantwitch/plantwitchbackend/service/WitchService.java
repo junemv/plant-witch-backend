@@ -32,20 +32,21 @@ public class WitchService {
         this.witchRepository = witchRepository;
     }
 
-    //
-    //Saves newly created plants
+
+    //Saves a new witch response to db
     @Transactional
-    public WitchAIResponse newWitchQuery(Long user_id, String prompt) {
+    public WitchAIResponse newWitchQuery(Long user_id, String promptText) {
         Optional<User> userOptional = userRepository.findById(user_id);
         WitchAIResponse witch = new WitchAIResponse();
         String apiKey = "";
-        OpenAIResponse openAIResponse = callOpenAI(prompt, apiKey);
+
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            witch.setUser(user);
-            witch.setPrompt(prompt);
+            OpenAIResponse openAIResponse = callOpenAI(promptText, apiKey);
+            witch.setPrompt(promptText);
             witch.setTimestamp(LocalDateTime.now());
             witch.setResponse(openAIResponse.getChoices().get(0).getMessage().getContent());
+            witch.setUser(user);
 
             return witchRepository.save(witch);
         } else {

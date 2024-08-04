@@ -12,11 +12,11 @@ public class WitchAIResponse {
     private Long id;
 
     @Lob
-    @Column(name = "prompt", nullable = false)
+    @Column(columnDefinition="TEXT", name = "prompt", nullable = false)
     private String prompt;
 
     @Lob
-    @Column(name = "response", nullable = false)
+    @Column(columnDefinition="TEXT", name = "response", nullable = false)
     private String response;
 
     @Column(name = "timestamp", nullable = false)
