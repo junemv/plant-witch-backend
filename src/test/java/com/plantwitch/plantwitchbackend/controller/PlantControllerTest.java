@@ -13,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -84,7 +85,7 @@ public class PlantControllerTest {
 
         Map<String, String> updates = new HashMap<>();
         updates.put("name", "My new plant name.");
-        updates.put("description","A new description.");
+        updates.put("description", "A new description.");
 
         ObjectMapper objectMapper = new ObjectMapper();
         String plantJson = objectMapper.writeValueAsString(updates);
@@ -102,6 +103,8 @@ public class PlantControllerTest {
                 .andExpect(jsonPath("$.repotDate").value("2024-07-27"))
                 .andExpect(jsonPath("$.waterInterval").value(6))
                 .andExpect(jsonPath("$.repotInterval").value(12));
+
+        verify(plantRepository,times(1)).save(testPlant);
     }
 
     @Test
@@ -128,4 +131,92 @@ public class PlantControllerTest {
         verify(plantRepository, times(0)).delete(testPlant);
     }
 
+    @Test
+    public void testGetPlantSchedule() throws Exception {
+        Long plantId = 1L;
+
+        when(plantRepository.findById(plantId)).thenReturn(Optional.of(testPlant));
+        when(plantService.calculateDaysUntilNextAction(testPlant.getWaterDate(),testPlant.getWaterInterval())).thenReturn(7L);
+        when(plantService.calculateDaysUntilNextAction(testPlant.getRepotDate(), testPlant.getRepotInterval())).thenReturn(16L);
+
+        mockMvc.perform(get("/api/v1/plants/{id}/schedule", plantId))
+                .andDo(print())  // Log the request and response details
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.daysUntilNextWatering").value(7L))
+                .andExpect(jsonPath("$.daysUntilNextRepotting").value(16L));
     }
+
+    @Test
+    public void testGetPlantScheduleReturnsNotFoundIfPlantIdIsNotFound() throws Exception {
+        Long plantId = 1L;
+
+        when(plantRepository.findById(plantId)).thenReturn(Optional.empty());
+
+        mockMvc.perform(get("/api/v1/plants/{id}/schedule", plantId))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testResetWaterDate() throws Exception {
+        Long plantId = 1L;
+        String updatedWaterDate = LocalDate.now().toString();
+        testPlant.setWaterDate(updatedWaterDate);
+
+        when(plantRepository.findById(plantId)).thenReturn(Optional.of(testPlant));
+        when(plantRepository.save(any(Plant.class))).thenReturn(testPlant);
+
+        mockMvc.perform(patch("/api/v1/plants/{id}/water-date", plantId)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .characterEncoding("utf-8"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.waterDate").value(updatedWaterDate));
+
+        verify(plantRepository,times(1)).save(testPlant);
+    }
+
+    @Test
+    public void testResetWaterDateReturnsNotFoundIfPlantIdIsNotFound() throws Exception {
+        Long plantId = 1L;
+        String updatedWaterDate = LocalDate.now().toString();
+        testPlant.setWaterDate(updatedWaterDate);
+
+        when(plantRepository.findById(plantId)).thenReturn(Optional.empty());
+
+        mockMvc.perform(patch("/api/v1/plants/{id}/water-date", plantId))
+                .andExpect(status().isNotFound());
+
+        verify(plantRepository,times(0)).save(testPlant);
+    }
+
+    @Test
+    public void testResetRepotDate() throws Exception {
+        Long plantId = 1L;
+        String updatedRepotDate = LocalDate.now().toString();
+        testPlant.setRepotDate(updatedRepotDate);
+
+        when(plantRepository.findById(plantId)).thenReturn(Optional.of(testPlant));
+        when(plantRepository.save(any(Plant.class))).thenReturn(testPlant);
+
+        mockMvc.perform(patch("/api/v1/plants/{id}/repot-date", plantId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.repotDate").value(updatedRepotDate));
+
+        verify(plantRepository,times(1)).save(testPlant);
+    }
+
+    @Test
+    public void testResetRepotDateReturnsNotFoundIfPlantIdIsNotFound() throws Exception {
+        Long plantId = 1L;
+        String updatedRepotDate = LocalDate.now().toString();
+        testPlant.setRepotDate(updatedRepotDate);
+
+        when(plantRepository.findById(plantId)).thenReturn(Optional.empty());
+
+        mockMvc.perform(patch("/api/v1/plants/{id}/repot-date", plantId))
+                .andExpect(status().isNotFound());
+
+        verify(plantRepository,times(0)).save(testPlant);
+    }
+}
