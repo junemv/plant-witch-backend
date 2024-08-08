@@ -21,9 +21,9 @@ public class UserService {
     }
 
 //    post new user
-    public ResponseEntity<Object> newUser(User user) {
-        userRepository.save(user);
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+    public User newUser(User user) {
+        return userRepository.save(user);
+//        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
 //    get all user IDs

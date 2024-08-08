@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
@@ -33,7 +33,7 @@ public class UserController {
 
 //    Post one user
     @PostMapping
-    public ResponseEntity<Object> createUser(@RequestBody User user){
+    public User createUser(@RequestBody User user){
         return userService.newUser(user);
     }
 }
