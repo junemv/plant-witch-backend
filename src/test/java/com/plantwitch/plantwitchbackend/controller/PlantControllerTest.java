@@ -5,7 +5,6 @@ import com.plantwitch.plantwitchbackend.entity.Plant;
 import com.plantwitch.plantwitchbackend.entity.User;
 import com.plantwitch.plantwitchbackend.repository.PlantRepository;
 import com.plantwitch.plantwitchbackend.service.PlantService;
-import lombok.Lombok;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -16,9 +15,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.*;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -86,7 +85,7 @@ public class PlantControllerTest {
     }
 
     @Test
-    public void testUpdatePlantNameAndDescription() throws Exception {
+    public void testUpdatePlant() throws Exception {
         Long plantId = 1L;
 
         when(plantRepository.findById(plantId)).thenReturn(Optional.of(testPlant));
@@ -94,6 +93,7 @@ public class PlantControllerTest {
 
         Map<String, String> updates = new HashMap<>();
         updates.put("name", "My new plant name.");
+        updates.put("commonName", "A new common name.");
         updates.put("description", "A new description.");
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -106,6 +106,7 @@ public class PlantControllerTest {
                 .andDo(print())  // Log the request and response details
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("My new plant name."))
+                .andExpect(jsonPath("$.commonName").value("A new common name."))
                 .andExpect(jsonPath("$.description").value("A new description."))
                 .andExpect(jsonPath("$.image").value("test_image.jpg"))
                 .andExpect(jsonPath("$.waterDate").value("2024-07-27"))
@@ -187,7 +188,6 @@ public class PlantControllerTest {
                 .andDo(print());
 
         Mockito.verify(plantService, times(1)).getAllPlantsByUser(userId);
-    }
     }
 
     @Test
