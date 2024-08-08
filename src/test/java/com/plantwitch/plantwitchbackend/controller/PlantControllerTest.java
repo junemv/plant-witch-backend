@@ -77,7 +77,7 @@ public class PlantControllerTest {
     }
 
     @Test
-    public void testUpdatePlantNameAndDescription() throws Exception {
+    public void testUpdatePlant() throws Exception {
         Long plantId = 1L;
 
         when(plantRepository.findById(plantId)).thenReturn(Optional.of(testPlant));
@@ -85,6 +85,7 @@ public class PlantControllerTest {
 
         Map<String, String> updates = new HashMap<>();
         updates.put("name", "My new plant name.");
+        updates.put("commonName", "A new common name.");
         updates.put("description", "A new description.");
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -97,6 +98,7 @@ public class PlantControllerTest {
                 .andDo(print())  // Log the request and response details
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("My new plant name."))
+                .andExpect(jsonPath("$.commonName").value("A new common name."))
                 .andExpect(jsonPath("$.description").value("A new description."))
                 .andExpect(jsonPath("$.image").value("test_image.jpg"))
                 .andExpect(jsonPath("$.waterDate").value("2024-07-27"))

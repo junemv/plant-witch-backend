@@ -15,7 +15,7 @@ public class Plant {
     private String name;
 
     @Column(name = "commonName", nullable = false)
-    private String commonName;
+    private String commonName = "default_name";
 
     @Column(name = "image")
     private String image;
