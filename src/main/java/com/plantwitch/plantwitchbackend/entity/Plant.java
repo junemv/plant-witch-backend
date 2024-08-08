@@ -14,6 +14,9 @@ public class Plant {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "commonName", nullable = false)
+    private String commonName;
+
     @Column(name = "image")
     private String image;
 
@@ -41,13 +44,14 @@ public class Plant {
 
     }
 
-    public Plant(int repotInterval, int waterInterval, String repotDate, String waterDate, String description, String image, String name, Long id) {
+    public Plant(int repotInterval, int waterInterval, String repotDate, String waterDate, String description, String image, String commonName, String name, Long id) {
         this.repotInterval = repotInterval;
         this.waterInterval = waterInterval;
         this.repotDate = repotDate;
         this.waterDate = waterDate;
         this.description = description;
         this.image = image;
+        this.commonName = commonName;
         this.name = name;
         this.id = id;
 
@@ -125,4 +129,8 @@ public class Plant {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public String getCommonName() { return commonName; }
+
+    public void setCommonName(String commonName) { this.commonName = commonName; }
 }

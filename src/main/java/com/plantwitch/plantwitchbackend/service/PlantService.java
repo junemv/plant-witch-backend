@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class PlantService {
@@ -61,7 +62,10 @@ public class PlantService {
     public List<Plant> getAllPlantsByUser(Long user_id) {
         Optional<User> user = userRepository.findById(user_id);
         if (user.isPresent()) {
-            return plantRepository.findByUserId(user_id);
+            List<Plant> plants = plantRepository.findByUserId(user_id);
+            return plants.stream()
+                    .sorted(Comparator.comparing(Plant::getId))
+                    .collect(Collectors.toList());
         }
         throw new RuntimeException("User not found with ID: " + user_id);
     }
