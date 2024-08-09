@@ -20,7 +20,7 @@ public class WitchController {
     @Autowired
     private WitchService witchService;
 
-    @CrossOrigin (origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/ask_witch/{user_id}")
     public ResponseEntity<WitchAIResponse> askWitchAI(@PathVariable Long user_id, @RequestBody Map<String, String> promptBody) {
         String prompt = promptBody.get("prompt")+"Give me a response in less than 100 words.";
