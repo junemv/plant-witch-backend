@@ -3,7 +3,7 @@ WORKDIR /plant-witch-backend
 COPY . .
 RUN mvn clean package -DskipTests
 
-From openjdk:17-jdk-slim 
+From openjdk:17-jdk-slim
 WORKDIR /plant-witch-backend
 COPY --from=build /plant-witch-backend/target/plant-witch-backend-0.0.1-SNAPSHOT.jar app.jar
 
