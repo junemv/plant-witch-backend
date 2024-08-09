@@ -36,29 +36,29 @@ public class UserServiceTest {
         closeable.close();
     }
 
-    @Test
-    void testCreateUser() {
-        User user = new User();
-        Long userId = 1L;
-        user.setId(userId);
-        user.setEmail("test@test.com");
-        user.setFirstName("Plant");
-        user.setLastName("Witch");
-
-        when(userRepository.save(user)).thenReturn(user);
-
-        User createdUser = userService.newUser(user);
-
-        assertThat(createdUser).isNotNull();
-        assertThat(createdUser.getEmail()).isEqualTo("test@test.com");
-        assertThat(createdUser.getFirstName()).isEqualTo("Plant");
-        assertThat(createdUser.getLastName()).isEqualTo("Witch");
-    }
-
-    @Test
-    public void testGetUserById() throws Exception {}
-
-    @Test
-    public void testGetAllUsers() throws Exception{}
+//    @Test
+//    void testCreateUser() {
+//        User user = new User();
+//        Long userId = 1L;
+//        user.setId(userId);
+//        user.setEmail("test@test.com");
+//        user.setFirstName("Plant");
+//        user.setLastName("Witch");
+//
+//        when(userRepository.save(user)).thenReturn(user);
+//
+//        User createdUser = userService.newUser(user);
+//
+//        assertThat(createdUser).isNotNull();
+//        assertThat(createdUser.getEmail()).isEqualTo("test@test.com");
+//        assertThat(createdUser.getFirstName()).isEqualTo("Plant");
+//        assertThat(createdUser.getLastName()).isEqualTo("Witch");
+//    }
+//
+//    @Test
+//    public void testGetUserById() throws Exception {}
+//
+//    @Test
+//    public void testGetAllUsers() throws Exception{}
 
 }

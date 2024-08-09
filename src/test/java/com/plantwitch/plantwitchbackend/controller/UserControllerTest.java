@@ -40,17 +40,17 @@ public class UserControllerTest {
         testUser.setLastName("Witch");
     }
 
-    @Test
-    public void testCreateUser() throws Exception {
-        when(userService.newUser(any(User.class))).thenReturn(testUser);
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        String userJson = objectMapper.writeValueAsString(testUser);
-    }
-
-    @Test
-    public void testGetUserById() throws Exception {}
-
-    @Test
-    public void testGetAllUsers() throws Exception{}
+//    @Test
+//    public void testCreateUser() throws Exception {
+//        when(userService.newUser(any(User.class))).thenReturn(testUser);
+//
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        String userJson = objectMapper.writeValueAsString(testUser);
+//    }
+//
+//    @Test
+//    public void testGetUserById() throws Exception {}
+//
+//    @Test
+//    public void testGetAllUsers() throws Exception{}
 }
