@@ -88,13 +88,25 @@ public class PlantControllerTest {
     public void testUpdatePlant() throws Exception {
         Long plantId = 1L;
 
-        when(plantRepository.findById(plantId)).thenReturn(Optional.of(testPlant));
-        when(plantRepository.save(any(Plant.class))).thenReturn(testPlant);
+        Plant updatedPlant = new Plant();
+        updatedPlant.setId(1L);
+        updatedPlant.setName("My new plant name.");
+        updatedPlant.setCommonName("A new common name.");
+        updatedPlant.setDescription("A new description.");
+        updatedPlant.setImage("test_image.jpg");
+        updatedPlant.setRepotDate("2024-07-28");
+        updatedPlant.setWaterDate("2024-07-28");
+        updatedPlant.setWaterInterval(6);
+        updatedPlant.setRepotInterval(250);
+        updatedPlant.setUser(testUser);
+
+        when(plantService.updatePlant(anyLong(), anyMap())).thenReturn(Optional.of(updatedPlant));
 
         Map<String, String> updates = new HashMap<>();
         updates.put("name", "My new plant name.");
         updates.put("commonName", "A new common name.");
         updates.put("description", "A new description.");
+        updates.put("repotInterval", "250");
 
         ObjectMapper objectMapper = new ObjectMapper();
         String plantJson = objectMapper.writeValueAsString(updates);
@@ -108,13 +120,7 @@ public class PlantControllerTest {
                 .andExpect(jsonPath("$.name").value("My new plant name."))
                 .andExpect(jsonPath("$.commonName").value("A new common name."))
                 .andExpect(jsonPath("$.description").value("A new description."))
-                .andExpect(jsonPath("$.image").value("test_image.jpg"))
-                .andExpect(jsonPath("$.waterDate").value("2024-07-27"))
-                .andExpect(jsonPath("$.repotDate").value("2024-07-27"))
-                .andExpect(jsonPath("$.waterInterval").value(6))
-                .andExpect(jsonPath("$.repotInterval").value(12));
-
-        verify(plantRepository,times(1)).save(testPlant);
+                .andExpect(jsonPath("$.repotInterval").value(250));
     }
 
     @Test

@@ -127,20 +127,9 @@ public class PlantController {
     // Updates name and description of plant by id 
     @PatchMapping("/updates/{id}")
     public ResponseEntity<Plant> updatePlant(@PathVariable Long id, @RequestBody Map<String, String> updates) {
-        Optional<Plant> plant = plantRepository.findById(id);
+        Optional<Plant> plant = plantService.updatePlant(id, updates);
         if (plant.isPresent()) {
-            Plant currentPlant = plant.get();
-            if (updates.containsKey("name")) {
-                currentPlant.setName(updates.get("name"));
-            }
-            if (updates.containsKey("commonName")) {
-                currentPlant.setCommonName(updates.get("commonName"));
-            }
-            if (updates.containsKey("description")) {
-                currentPlant.setDescription(updates.get("description"));
-            }
-            Plant updatedPlant = plantRepository.save(currentPlant);
-            return ResponseEntity.ok(updatedPlant);
+            return ResponseEntity.ok(plant.get());
         } else {
             return ResponseEntity.notFound().build();
         }
