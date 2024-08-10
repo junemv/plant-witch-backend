@@ -5,7 +5,6 @@ import com.plantwitch.plantwitchbackend.entity.User;
 import com.plantwitch.plantwitchbackend.entity.WitchAIResponse;
 import com.plantwitch.plantwitchbackend.repository.UserRepository;
 import com.plantwitch.plantwitchbackend.repository.WitchRepository;
-import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -38,8 +37,7 @@ public class WitchService {
     public WitchAIResponse newWitchQuery(Long user_id, String promptText) {
         Optional<User> userOptional = userRepository.findById(user_id);
         WitchAIResponse witch = new WitchAIResponse();
-        Dotenv dotenv = Dotenv.load();
-        String apiKey = dotenv.get("OPENAI_API_KEY");
+        String apiKey = System.getenv("OPENAI_API_KEY");
 
         if (userOptional.isPresent()) {
             User user = userOptional.get();
