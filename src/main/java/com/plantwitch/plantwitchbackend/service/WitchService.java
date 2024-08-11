@@ -45,7 +45,6 @@ public class WitchService {
         WitchAIResponse witch = new WitchAIResponse();
         String apiKey = System.getenv("OPENAI_API_KEY");
 
-
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             OpenAIResponse openAIResponse = callOpenAI(promptText, apiKey);

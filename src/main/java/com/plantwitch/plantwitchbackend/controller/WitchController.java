@@ -21,8 +21,8 @@ public class WitchController {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private PlantRepository plantRepository;
+//    @Autowired
+//    private PlantRepository plantRepository;
 
     @Autowired
     private WitchService witchService;
