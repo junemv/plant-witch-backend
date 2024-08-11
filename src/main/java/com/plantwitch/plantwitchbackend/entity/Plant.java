@@ -1,6 +1,9 @@
 package com.plantwitch.plantwitchbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "plants")
@@ -40,6 +43,10 @@ public class Plant {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToMany(mappedBy = "plant", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<WitchAIResponse> witchAIResponseRequests;
+
     public Plant() {
 
     }
@@ -54,7 +61,6 @@ public class Plant {
         this.commonName = commonName;
         this.name = name;
         this.id = id;
-
 
     }
 
@@ -133,4 +139,8 @@ public class Plant {
     public String getCommonName() { return commonName; }
 
     public void setCommonName(String commonName) { this.commonName = commonName; }
+
+    public List<WitchAIResponse> getWitchAIResponseRequests() { return witchAIResponseRequests; }
+
+    public void setWitchAIResponseRequests(List<WitchAIResponse> witchAIResponseRequests) { this.witchAIResponseRequests = witchAIResponseRequests; }
 }

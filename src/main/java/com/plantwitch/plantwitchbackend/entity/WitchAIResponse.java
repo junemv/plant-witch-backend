@@ -1,5 +1,7 @@
 package com.plantwitch.plantwitchbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -24,13 +26,19 @@ public class WitchAIResponse {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "plant_id")
+    @JsonBackReference
+    private Plant plant;
+
     public WitchAIResponse() {
 
     }
 
-    public WitchAIResponse(Long id, User user, String prompt, String response, LocalDateTime timestamp) {
+    public WitchAIResponse(Long id, User user, Plant plant, String prompt, String response, LocalDateTime timestamp) {
         this.id = id;
         this.user = user;
+        this.plant = plant;
         this.prompt = prompt;
         this.response = response;
         this.timestamp = timestamp;
@@ -75,4 +83,9 @@ public class WitchAIResponse {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public Plant getPlant() { return plant; }
+
+    public void setPlant(Plant plant) { this.plant = plant; }
+
 }
