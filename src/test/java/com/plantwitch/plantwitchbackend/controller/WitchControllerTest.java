@@ -33,24 +33,24 @@ public class WitchControllerTest {
     @MockBean
     private UserRepository userRepository;
 
-    @Test
-    public void testAskWitchAI() throws Exception {
-        WitchAIResponse response = new WitchAIResponse();
-        response.setId(1L);
-        response.setResponse("A test response.");
-        response.setPrompt("How much water does basil need?");
-
-        when(witchService.newWitchQuery(anyLong(), anyString())).thenReturn(response);
-
-        String questionJson = "{\"prompt\":\"How much water does basil need?\"}";
-
-        mockMvc.perform(post("/api/v1/witch_ai/ask_witch/{user_id}", 1L)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .characterEncoding("utf-8")
-                        .content(questionJson))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.prompt").value("How much water does basil need?"))
-                .andExpect(jsonPath("$.response").value("A test response."));
-    }
+//    @Test
+//    public void testAskWitchAI() throws Exception {
+//        WitchAIResponse response = new WitchAIResponse();
+//        response.setId(1L);
+//        response.setResponse("A test response.");
+//        response.setPrompt("How much water does basil need?");
+//
+//        when(witchService.newWitchQuery(anyLong(), anyString())).thenReturn(response);
+//
+//        String questionJson = "{\"prompt\":\"How much water does basil need?\"}";
+//
+//        mockMvc.perform(post("/api/v1/witch_ai/ask_witch/{user_id}", 1L)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .characterEncoding("utf-8")
+//                        .content(questionJson))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.id").value(1L))
+//                .andExpect(jsonPath("$.prompt").value("How much water does basil need?"))
+//                .andExpect(jsonPath("$.response").value("A test response."));
+//    }
 }

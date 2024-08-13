@@ -14,6 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/witch_ai")
+@CrossOrigin(origins = "https://plant-witch-frontend.vercel.app/")
 public class WitchController {
     @Autowired
     private WitchRepository witchRepository;
@@ -27,11 +28,10 @@ public class WitchController {
     @Autowired
     private WitchService witchService;
 
-    @CrossOrigin(origins = "https://plant-witch-frontend.vercel.app/")
     @PostMapping("/ask_witch/{user_id}")
-    public ResponseEntity<WitchAIResponse> askWitchAI(@PathVariable Long user_id, @RequestBody Map<String, String> promptBody) {
-        String prompt = promptBody.get("prompt")+"Give me a response in less than 100 words.";
-        WitchAIResponse savedAIResponse = witchService.newWitchQuery(user_id, prompt);
+    public ResponseEntity<WitchAIResponse> askWitchAI(@PathVariable Long user_id, @RequestBody List<Map<String, String>> chatHistoryBody) {
+        String lastPrompt = chatHistoryBody.get(chatHistoryBody.size() - 1).get("content");
+        WitchAIResponse savedAIResponse = witchService.newWitchQuery(user_id, chatHistoryBody, lastPrompt);
 
         return ResponseEntity.ok(savedAIResponse);
     }
