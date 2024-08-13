@@ -8,6 +8,7 @@ import com.plantwitch.plantwitchbackend.repository.PlantRepository;
 import com.plantwitch.plantwitchbackend.repository.UserRepository;
 import com.plantwitch.plantwitchbackend.repository.WitchRepository;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,15 +41,27 @@ public class WitchService {
 
     //Saves a new witch response to db
     @Transactional
-    public WitchAIResponse newWitchQuery(Long user_id, String promptText) {
+    public WitchAIResponse newWitchQuery(Long user_id, List<Map<String, String>> chatHistory, String lastPrompt) {
         Optional<User> userOptional = userRepository.findById(user_id);
         WitchAIResponse witch = new WitchAIResponse();
+//        Dotenv dotenv = Dotenv.load();
+//        String apiKey = dotenv.get("OPENAI_API_KEY");
         String apiKey = System.getenv("OPENAI_API_KEY");
 
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            OpenAIResponse openAIResponse = callOpenAI(promptText, apiKey);
-            witch.setPrompt(promptText);
+
+            // Retrieves last prompt from user
+            String modifiedPrompt = lastPrompt + "Give me a response in less than 100 words.";
+
+            // Adds modified prompt to chatHistory
+            Map<String, String> lastPromptEntry = new HashMap<>();
+            lastPromptEntry.put("role", "user");
+            lastPromptEntry.put("content", modifiedPrompt);
+            chatHistory.add(lastPromptEntry);
+
+            OpenAIResponse openAIResponse = callOpenAI(chatHistory, apiKey);
+            witch.setPrompt(lastPrompt);
             witch.setTimestamp(LocalDateTime.now());
             witch.setResponse(openAIResponse.getChoices().get(0).getMessage().getContent());
             witch.setUser(user);
@@ -60,7 +73,7 @@ public class WitchService {
 
     }
     // Make API call to OpenAI
-    private OpenAIResponse callOpenAI(String prompt, String apiKey) {
+    private OpenAIResponse callOpenAI(List<Map<String, String>> messages, String apiKey) {
         String openApiUrl = "https://api.openai.com/v1/chat/completions";
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -68,7 +81,7 @@ public class WitchService {
         headers.setBearerAuth(apiKey);
         Map<String, Object> request = new HashMap<>();
         request.put("model", "gpt-4o-mini"); //we can choose other
-        request.put("messages", List.of(Map.of("role", "user", "content", prompt)));
+        request.put("messages", messages);
         request.put("max_tokens", 150);
 
         HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(request, headers);
