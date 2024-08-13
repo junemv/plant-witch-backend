@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://plant-witch-frontend.vercel.app/")
 @RestController
 @RequestMapping("/api/v1/plants")
 public class PlantController {
