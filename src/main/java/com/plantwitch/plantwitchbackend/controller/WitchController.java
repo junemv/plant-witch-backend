@@ -28,7 +28,7 @@ public class WitchController {
     @Autowired
     private WitchService witchService;
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "https://plant-witch-frontend.vercel.app/")
     @PostMapping("/ask_witch/{user_id}")
     public ResponseEntity<WitchAIResponse> askWitchAI(@PathVariable Long user_id, @RequestBody List<Map<String, String>> chatHistoryBody) {
         String lastPrompt = chatHistoryBody.get(chatHistoryBody.size() - 1).get("content");
